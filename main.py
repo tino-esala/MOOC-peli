@@ -16,7 +16,7 @@ def clamp(n, min, max):
 class Peli:
     def __init__(self):
         pygame.init()
-        self.robo = pygame.image.load("src/robo.png")
+        self.robo = pygame.image.load("C:/Users/Asus/Documents/GitHub/MOOC-peli/peli/robo.png")
         self.hirviot = []
         self.hirviot.append(Hirvio(-2, 2))
         self.x = 100
@@ -141,7 +141,7 @@ class Hirvio():
         self.y = -100
         self.xnopeus = random.choice([x1, x2])
         self.ynopeus = 2
-        self.hirvio = pygame.image.load("src/hirvio.png")
+        self.hirvio = pygame.image.load("peli/hirvio.png")
 
     def liiku(self):
         if self.xnopeus > 0 and self.x+self.hirvio.get_width() >= 640:
