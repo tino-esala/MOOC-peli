@@ -40,8 +40,10 @@ class Peli:
         fontti = pygame.font.SysFont("Arial", 24)
         teksti = fontti.render(f"Pisteet: {self.pisteet}", True, (255, 0, 0))
         naytto.blit(teksti, (520, 0))
+        
         for i in self.hirviot:
             naytto.blit(i.hirvio, (i.x, i.y))
+
         pygame.display.flip()
         kello = pygame.time.Clock()
         kello.tick(80)
