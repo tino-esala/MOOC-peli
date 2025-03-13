@@ -1,22 +1,16 @@
 import pygame
 import random
 
+#Pelin nimi
 pygame.display.set_caption("Mörköpeli")
 
+#Resoluutio
 naytto = pygame.display.set_mode((640, 480))
-
-def clamp(n, min, max): 
-    if n < min: 
-        return min
-    elif n > max: 
-        return max
-    else: 
-        return n 
 
 class Peli:
     def __init__(self):
         pygame.init()
-        self.robo = pygame.image.load("C:/Users/Asus/Documents/GitHub/MOOC-peli/peli/robo.png")
+        self.robo = pygame.image.load("C:/Users/Asus/Documents/GitHub/MOOC-peli/robo.png")
         self.hirviot = []
         self.hirviot.append(Hirvio(-2, 2))
         self.x = 100
@@ -46,8 +40,10 @@ class Peli:
         fontti = pygame.font.SysFont("Arial", 24)
         teksti = fontti.render(f"Pisteet: {self.pisteet}", True, (255, 0, 0))
         naytto.blit(teksti, (520, 0))
+        
         for i in self.hirviot:
             naytto.blit(i.hirvio, (i.x, i.y))
+
         pygame.display.flip()
         kello = pygame.time.Clock()
         kello.tick(80)
@@ -70,6 +66,7 @@ class Peli:
             self.y += 2
             self.y = clamp(self.y, 0, 480-self.robo.get_height())
 
+    # Mitä nappulaa painetaan
     def tutki_tapahtumat(self):
         for tapahtuma in pygame.event.get():
             if tapahtuma.type == pygame.KEYDOWN:
@@ -86,6 +83,7 @@ class Peli:
                 if tapahtuma.key == pygame.K_ESCAPE:
                     exit()
 
+            # Mikä nappula irroitetaan
             if tapahtuma.type == pygame.KEYUP:
                 if tapahtuma.key == pygame.K_LEFT:
                     self.vasemmalle = False
@@ -99,7 +97,7 @@ class Peli:
             if tapahtuma.type == pygame.QUIT:
                 exit()
             
-
+    # Game over ruutu
     def pistenaytto(self):
         fontti = pygame.font.SysFont("Arial", 24)
         fontti2 = pygame.font.SysFont("Arial", 36)
@@ -124,10 +122,12 @@ class Peli:
         if self.ajastin % 5 == 0:
             self.pisteet += 1
     
+    # Hirviön lisäys ajastimen mukaan
     def hirvion_lisays(self):
         if self.ajastin <= 1 and len(self.hirviot) < 12:
             self.hirviot.append(Hirvio(-2, 2))
 
+    # Tarkistaa törmääkö Robo Hirviöön
     def tormays(self):
         self.xrange = range(self.x-30, self.x+30)
         self.yrange = range(self.y-55, self.y+70)
@@ -141,19 +141,29 @@ class Hirvio():
         self.y = -100
         self.xnopeus = random.choice([x1, x2])
         self.ynopeus = 2
-        self.hirvio = pygame.image.load("peli/hirvio.png")
+        self.hirvio = pygame.image.load("C:/Users/Asus/Documents/GitHub/MOOC-peli/hirvio.png")
 
     def liiku(self):
         if self.xnopeus > 0 and self.x+self.hirvio.get_width() >= 640:
             self.xnopeus = -2
-        if self.xnopeus < 0 and self.x <= 0:
+        elif self.xnopeus < 0 and self.x <= 0:
             self.xnopeus = 2
-        if self.ynopeus > 0 and self.y+self.hirvio.get_height() >= 480:
+        elif self.ynopeus > 0 and self.y+self.hirvio.get_height() >= 480:
             self.ynopeus = -2
-        if self.ynopeus < 0 and self.y <= 0:
+        elif self.ynopeus < 0 and self.y <= 0:
             self.ynopeus = 2
         self.x += self.xnopeus
         self.y += self.ynopeus
-        
+
+# Pitää Robon pelialueen sisällä
+def clamp(n, min, max): 
+    if n < min: 
+        return min
+    elif n > max: 
+        return max
+    else: 
+        return n 
+
+
 Peli()
 
